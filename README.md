@@ -1,8 +1,12 @@
-The default Gstreamer version on Raspberry Pi 3 is 1.4.4. 
+This is guide to build gstreamer from scratch.
 
-This is guide to build gstreamer from scratch. Building takes more 1h.
+# Update
 
-Btw, I already built some version, so you can extract it to use.
+This GStreamer builder for RPi is forked from cxphong/Build-gstreamer-Raspberry-Pi-3(https://github.com/cxphong/Build-gstreamer-Raspberry-Pi-3)
+
+1. Update for latest Raspbian 
+2. Add builder for WEBRTC
+
 
 # Note
 
