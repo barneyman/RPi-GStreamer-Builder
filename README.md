@@ -71,8 +71,9 @@ sudo ldconfig
 	
 ## 2. Extract version you want & copy into file system
 
-```Shell	
-sudo cp -r -v local /usr/local
+```Shell
+tar xvf RPi-GStreamer-RELEASE-FILE.tar.gz
+sudo cp -r -v local /usr/
 ```
 
 ## 3. Build config (Same build above, if not)
