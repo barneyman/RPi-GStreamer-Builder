@@ -69,20 +69,10 @@ sudo ldconfig
 
 ## 1. Delete old build
 	
-```Shell
-sudo rm -rf /usr/local/include/gstreamer-1.0
-sudo rm -rf  /usr/include/gstreamer-1.0
-
-# Remove only gstreamer, in my case it has only gstreamer lib
-sudo rm -rf /usr/local/lib/*
-```
-
 ## 2. Extract version you want & copy into file system
 
 ```Shell	
-sudo cp -r bin/* /usr/local/bin
-sudo cp -r gstreamer-1.0 /usr/local/include
-sudo cp -r lib/* /usr/local/lib
+sudo cp -r -v local /usr/local
 ```
 
 ## 3. Build config (Same build above, if not)
