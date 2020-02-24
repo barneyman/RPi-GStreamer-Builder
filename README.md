@@ -4,7 +4,7 @@ This is guide to build gstreamer from scratch.
 
 This GStreamer builder for RPi is forked from cxphong/Build-gstreamer-Raspberry-Pi-3(https://github.com/cxphong/Build-gstreamer-Raspberry-Pi-3)
 
-1. Update for latest Raspbian 
+1. Update for latest Raspbian (support Raspberry Pi 4)
 2. Add builder for WEBRTC
 
 
