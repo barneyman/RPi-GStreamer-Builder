@@ -34,7 +34,7 @@ sudo apt-get install -y build-essential autotools-dev automake autoconf \
                         libmpeg2-4-dev libopencore-amrnb-dev libopencore-amrwb-dev \
                         libsidplay1-dev libtwolame-dev libx264-dev libusb-1.0 \
                         python-gi-dev yasm python3-dev libgirepository1.0-dev \
-                        libsrtp-dev liborc-dev
+                        libsrtp-dev liborc-dev gettext
 
 #get repos if they are not there yet
 [ ! -d libnice ] && git clone --depth=1 --branch $LIBNICE_BRANCH https://gitlab.freedesktop.org/libnice/libnice
