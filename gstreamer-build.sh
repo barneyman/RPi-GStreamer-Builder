@@ -2,6 +2,7 @@
 
 # Set your target branch
 BRANCH="1.16.2"
+LIBNICE_BRANCH="0.1.16"
 
 # Create a log file of the build as well as displaying the build on the tty as it runs
 exec > >(tee build_gstreamer.log)
@@ -36,15 +37,16 @@ sudo apt-get install -y build-essential autotools-dev automake autoconf \
                         libsrtp-dev liborc-dev
 
 #get repos if they are not there yet
-[ ! -d gstreamer ] && git clone git://anongit.freedesktop.org/git/gstreamer/gstreamer
-[ ! -d gst-plugins-base ] && git clone git://anongit.freedesktop.org/git/gstreamer/gst-plugins-base
-[ ! -d gst-plugins-good ] && git clone git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
-[ ! -d gst-plugins-bad ] && git clone git://anongit.freedesktop.org/git/gstreamer/gst-plugins-bad
-[ ! -d gst-libav ] && git clone git://anongit.freedesktop.org/git/gstreamer/gst-libav
-[ ! -d gst-plugins-ugly ] && git clone git://anongit.freedesktop.org/git/gstreamer/gst-plugins-ugly
-[ ! -d gst-omx ] && git clone git://anongit.freedesktop.org/git/gstreamer/gst-omx
-[ ! -d libnice ] && git clone https://gitlab.freedesktop.org/libnice/libnice
-[ ! -d webrtc-audio-processing ] git clone git://anongit.freedesktop.org/pulseaudio/webrtc-audio-processing
+[ ! -d libnice ] && git clone --depth=1 --branch $LIBNICE_BRANCH https://gitlab.freedesktop.org/libnice/libnice
+[ ! -d gstreamer ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gstreamer
+[ ! -d gst-plugins-base ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-plugins-base
+[ ! -d gst-plugins-good ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
+[ ! -d gst-plugins-bad ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-plugins-bad
+[ ! -d gst-plugins-ugly ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-plugins-ugly
+[ ! -d gst-rtsp-server ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-rtsp-server
+#[ ! -d gst-omx ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-omx
+#[ ! -d gst-libav ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-libav
+[ ! -d gst-python ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-python
 
 export LD_LIBRARY_PATH=/usr/local/lib/
 
@@ -56,44 +58,19 @@ make -j4
 sudo make install
 cd ..
 
-#webrtc-audio-processing for webrtcdsp
-cd webrtc-audio-processing
-./autogen.sh
-./configure
-make -j4 
-sudo make install
-cd ..
-
 cd gstreamer
-git checkout $BRANCH
 ./autogen.sh --disable-gtk-doc
 make -j4
 sudo make install
 cd ..
 
 cd gst-plugins-base
-git checkout $BRANCH
 ./autogen.sh --disable-gtk-doc --disable-examples
 make -j4
 sudo make install
 cd ..
 
-cd gst-libav
-git checkout $BRANCH
-./autogen.sh --disable-gtk-doc --enable-orc
-make -j4
-sudo make install
-cd ..
-
 cd gst-plugins-good
-git checkout $BRANCH
-./autogen.sh --disable-gtk-doc
-make -j4
-sudo make install
-cd ..
-
-cd gst-plugins-ugly
-git checkout $BRANCH
 ./autogen.sh --disable-gtk-doc
 make -j4
 sudo make install
@@ -113,20 +90,44 @@ make CFLAGS+='-Wno-error -Wno-redundant-decls' LDFLAGS+='-L/opt/vc/lib' -j4
 sudo make install
 cd ..
 
+cd gst-plugins-ugly
+./autogen.sh --disable-gtk-doc
+make -j4
+sudo make install
+cd ..
+
+cd gst-rtsp-server
+./autogen.sh --disable-gtk-doc
+make -j4
+sudo make install
+cd ..
+
+# gst-libav
+#cd gst-libav
+#./autogen.sh --disable-gtk-doc --enable-orc
+#make -j4
+#sudo make install
+#cd ..
+
 # omx support
-cd gst-omx
-git checkout $BRANCH
-export LDFLAGS='-L/opt/vc/lib' \
-CFLAGS='-I/opt/vc/include -I/opt/vc/include/IL -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -I/opt/vc/include/IL' \
-CPPFLAGS='-I/opt/vc/include -I/opt/vc/include/IL -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -I/opt/vc/include/IL'\
-PKG_CONFIG_PATH='/opt/vc/lib/pkgconfig'
-./autogen.sh --disable-gtk-doc --with-omx-target=rpi
-make CFLAGS+='-Wno-error -Wno-redundant-decls' LDFLAGS+='-L/opt/vc/lib' -j4
+#cd gst-omx
+#export LDFLAGS='-L/opt/vc/lib' \
+#CFLAGS='-I/opt/vc/include -I/opt/vc/include/IL -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -I/opt/vc/include/IL' \
+#CPPFLAGS='-I/opt/vc/include -I/opt/vc/include/IL -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -I/opt/vc/include/IL'
+#./autogen.sh --disable-gtk-doc --with-omx-target=rpi
+#make CFLAGS+="-Wno-error -Wno-redundant-decls" LDFLAGS+="-L/opt/vc/lib" -j4
+#sudo make install
+#cd ..
+
+# python bindings
+cd gst-python
+PYTHON=/usr/bin/python3 ./autogen.sh
+make -j4
 sudo make install
 cd ..
 
 #finish up
-sudo ln -s /usr/local/include/gstreamer-1.0 /usr/include
+#sudo ln -s /usr/local/include/gstreamer-1.0 /usr/include
 sudo ldconfig
 
 #print version
