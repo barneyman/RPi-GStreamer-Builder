@@ -44,6 +44,7 @@ sudo apt-get install -y build-essential autotools-dev automake autoconf \
 [ ! -d gst-plugins-bad ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-plugins-bad
 [ ! -d gst-plugins-ugly ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-plugins-ugly
 [ ! -d gst-rtsp-server ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-rtsp-server
+[ ! -d gst-editing-services ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-editing-services
 #[ ! -d gst-omx ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-omx
 #[ ! -d gst-libav ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-libav
 [ ! -d gst-python ] && git clone --depth=1 --branch $BRANCH git://anongit.freedesktop.org/git/gstreamer/gst-python
@@ -97,6 +98,12 @@ sudo make install
 cd ..
 
 cd gst-rtsp-server
+./autogen.sh --disable-gtk-doc
+make -j4
+sudo make install
+cd ..
+
+cd gst-editing-services
 ./autogen.sh --disable-gtk-doc
 make -j4
 sudo make install
